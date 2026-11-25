@@ -5,8 +5,16 @@
 void add_record(stu **ptr){
 	printf("\033[33m----------------------------------------\n");
 	stu *new=malloc(sizeof(stu));
-	printf("Enter name and percentage\n");
+retake:	printf("Enter name and percentage\n");
 	scanf("%s%f",new->name,&new->percentage);
+	if(new->percentage<0 || new->percentage >100){
+		printf("Enter the valid percentage\n");
+		goto retake;
+	}
+	if(strlen(new->name)<=0){
+		printf("Name cannot be empty.\n");
+		goto retake;
+	}
 	if(*ptr==0 || (*ptr)->rollno != 1){
 		new->rollno=1;
 		new->next=*ptr;
