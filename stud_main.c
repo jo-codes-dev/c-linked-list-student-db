@@ -34,18 +34,19 @@ int main(){
 				char op;
 				printf("s/S: Save and exit\n");
 				printf("e/E: exit without saving\n");
-				scanf("%s",&op);
+				scanf(" %c",&op);
 				switch(op){
 					case 's': case 'S':save_records(headptr);
-						free_all(headptr);
-						printf("\033[33m**********     end     **********\n\033[0m");
+							free_all(headptr);
+							printf("\033[33m**********     end     **********\n\033[0m");
 							exit(0);
 					case 'e':case 'E':free_all(headptr);
+								printf("\033[33m**********     end     **********\n\033[0m");
 									exit(0);
 					default("invalid option to save or not\n");
 				}
 			}
-				
+			break;
 			case 'v':case 'V':save_records(headptr);break;
 			default:printf("\033[31mInvalid option\033[0m\n");
 		}
