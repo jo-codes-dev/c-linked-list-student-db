@@ -43,7 +43,7 @@ int main(){
 					case 'e':case 'E':free_all(headptr);
 								printf("\033[33m**********     end     **********\n\033[0m");
 									exit(0);
-					default("\033[31minvalid option to save or not\033[0m\n");
+					default:printf("\033[31minvalid option to save or not\033[0m\n");
 				}
 			}
 			break;
