@@ -1,4 +1,4 @@
-//file that contain add and revers functions to the data
+//file that contain add exit_all and revers functions to the data
 #include"student.h"
 
 
@@ -6,33 +6,53 @@ void add_record(stu **ptr){
 	printf("\033[33m----------------------------------------\n");
 	stu *new=malloc(sizeof(stu));
 retake:	printf("Enter name and percentage\n");
-	scanf("%s%f",new->name,&new->percentage);
+	if(scanf("%19s%f",new->name,&new->percentage)!=2){
+		//%19s make sure that only 19 char are entered
+		while(getchar()!='\n');
+		//Clears invalid input from buffer
+		printf("Invalid input. Enter valid name and percentage\n");
+		goto retake;
+	}
+	for(int i = 0; new->name[i] != '\0'; i++){
+		if(!((new->name[i] >= 'A' && new->name[i] <= 'Z') ||
+		     (new->name[i] >= 'a' && new->name[i] <= 'z'))){
+			printf("Invalid name. Use alphabets only.\n");
+			goto retake;
+		}
+	}
 	if(new->percentage<0 || new->percentage >100){
 		printf("Enter the valid percentage\n");
 		goto retake;
 	}
-	if(strlen(new->name)<=0){
-		printf("Name cannot be empty.\n");
-		goto retake;
-	}
-	if(*ptr==0 || (*ptr)->rollno != 1){
-		new->rollno=1;
-		new->next=*ptr;
-		*ptr=new;
-	}else{
-		stu *last=(*ptr)->next;
-		stu *prev=*ptr;
-					
-		while(last!=0 && last->rollno == ((prev->rollno)+1)){
-			prev=last;
-			last=last->next;
+	int roll = 1;
+	while(1){
+		stu *temp = *ptr;
+		int found = 0;
+		while(temp != 0){
+			if(temp->rollno == roll){
+				found = 1;
+				break;
+			}
+			temp = temp->next;
 		}
-		new->rollno = (prev->rollno+1);
+		if(!found) break;
+		roll++;
+	}
+	new->rollno = roll;
+	if(*ptr == 0 || (*ptr)->rollno > new->rollno){
+		new->next = *ptr;
+		*ptr = new;
+	}else{
+		stu *prev = *ptr;
+		while(prev->next != 0 && prev->next->rollno < new->rollno){
+			prev = prev->next;
+		}
 		new->next = prev->next;
-		prev->next=new;
+		prev->next = new;
 	}
 	printf("\033[33m----------------------------------------\n");
 }
+
 //revers links function
 void reverse_links(stu **ptr){
 	printf("\033[33m----------------------------------------\n");
@@ -56,6 +76,7 @@ void reverse_links(stu **ptr){
 	*ptr=a[c-1];
 	
 	}
+	free(a);
 	printf("\033[33m----------------------------------------\n");
 }
 

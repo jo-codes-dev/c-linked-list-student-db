@@ -27,6 +27,7 @@ void sort_records(stu *ptr);
 void modify_data(stu **ptr);
 void delete_all(stu **ptr);
 void reverse_links(stu **);
+void exit_all(stu *ptr);
 
 //other functions
 void free_all(stu *ptr);
@@ -36,6 +37,7 @@ void modify_rollno(stu **ptr);
 void modify_name(stu **ptr);
 void modify_percentage(stu **ptr);
 void sort_name(stu *ptr);
+void sort_rollno(stu *ptr);
 void sort_percentage(stu *ptr);
 int count_node(stu *ptr);
 

@@ -1,15 +1,22 @@
-//file to write the save function
+//file to write the save function exit_all function
 
 #include"student.h"
 
 void save_records(stu *ptr){
 	printf("\033[33m----------------------------------------\n");
+	FILE *fp=fopen("student.dat","w");
+	if(fp==0){
+		printf("Error in opening file\n");
+		return;
+	
+	}	
 	if(ptr==0){
 		printf("No Records Found\n");
+		fclose(fp);
 		printf("----------------------------------------\033[0m\n");
 		return ;
 	}
-	FILE *fp=fopen("student.dat","w");
+
 	
 	while(ptr!=0){
 		fprintf(fp,"%d %s %f\n",ptr->rollno,ptr->name,ptr->percentage);
@@ -23,8 +30,26 @@ void free_all(stu *ptr){		//Using recursion to free the memory
 	if(ptr){
 		free_all((ptr)->next);
 		free(ptr);
-		
 	}
+	
+}
+//exit all function
+void exit_all(stu *ptr){
+	char op;
+	printf("s/S: Save and exit\n");
+	printf("e/E: exit without saving\n");
+	scanf(" %c",&op);
+	switch(op){
+		case 's': case 'S':save_records(ptr);
+				free_all(ptr);
+				printf("\033[33m**********     end     **********\n\033[0m");
+				exit(0);
+		case 'e':case 'E':free_all(ptr);
+					printf("\033[33m**********     end     **********\n\033[0m");
+				exit(0);
+		default:printf("\033[31minvalid option to save or not\033[0m\n");
+	}
+
 }
 void read_records(stu **ptr){
 	FILE *fp=fopen("student.dat","r");
@@ -35,7 +60,10 @@ void read_records(stu **ptr){
 	stu *new;
 	while(1){
 		new=malloc(sizeof(stu));
-		if((fscanf(fp,"%d%s%f",&new->rollno,new->name,&new->percentage))==EOF)break;
+		if((fscanf(fp,"%d%s%f",&new->rollno,new->name,&new->percentage))==EOF){
+			free(new);
+			break;
+		}
 		new->next=0;
 		if(*ptr==0 ){
 			*ptr=new;
@@ -46,6 +74,8 @@ void read_records(stu **ptr){
 			last->next=new;
 		}
 	}
+	fclose(fp);
+	sort_rollno(*ptr);
 	
 	printf("The records are copied\n");
 }

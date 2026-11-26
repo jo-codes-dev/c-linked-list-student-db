@@ -41,6 +41,7 @@ void delete_all(stu **ptr){
 	while(pos){
 		*ptr=pos->next;
 		free(pos);
+		printf("deleted the node\n");
 		pos=*ptr;
 	}
 	printf("All nodes are deleted\n");
@@ -77,7 +78,7 @@ void delete_name(stu **ptr){
 			prev=pos;
 			pos=pos->next;
 		}
-		printf("deleted the node\n");
+
 	}else if(c>1){
 		printf("there are multiple records which rollno to delete\n");
 		delete_rollno(ptr);

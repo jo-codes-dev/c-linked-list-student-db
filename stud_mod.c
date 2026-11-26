@@ -5,6 +5,11 @@
 void modify_data(stu **ptr){
 	printf("\033[33m----------------------------------------\n");
 	char ch;
+	if(*ptr==0){
+		printf("No Records Found\n");
+		printf("----------------------------------------\033[0m\n");
+		return ;
+	}
 	printf("Enter which record to search for modification\n");
 	printf("R/r:Search by roll number\n");
 	printf("N/n:Search by name\n");
