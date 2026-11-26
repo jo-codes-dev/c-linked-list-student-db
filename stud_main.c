@@ -15,8 +15,8 @@ int main(){
 		printf("d/D:Delete according to name\n");
 		printf("s/S:Show the list\n");
 		printf("m/M:Modify the data\n");
-		printf("v/V:Save and exit \n");
-		printf("e/E:Exit without saving\n");
+		printf("v/V:Save  \n");
+		printf("e/E:Exit \n");
 		printf("t/T:Sort the list\n");
 		printf("l/L:Delete all the records\n");
 		printf("r/R:Reverse the List\n");
@@ -30,12 +30,23 @@ int main(){
 			case 't':case 'T':sort_records(headptr);break;
 			case 'l':case 'L':delete_all(&headptr);break;
 			case 'r':case 'R':reverse_links(&headptr);break;
-			case 'e':case 'E':free_all(headptr);
-			exit(0);
-			case 'v':case 'V':save_records(headptr);
-			free_all(headptr);
-			printf("\033[33m**********     end     **********\n\033[0m");
-				exit(0);
+			case 'e':case 'E':{
+				char op;
+				printf("s/S: Save and exit\n");
+				printf("e/E: exit without saving\n");
+				scanf("%s",&op);
+				switch(op){
+					case 's': case 'S':save_records(headptr);
+						free_all(headptr);
+						printf("\033[33m**********     end     **********\n\033[0m");
+							exit(0);
+					case 'e':case 'E':free_all(headptr);
+									exit(0);
+					default("invalid option to save or not\n");
+				}
+			}
+				
+			case 'v':case 'V':save_records(headptr);break;
 			default:printf("\033[31mInvalid option\033[0m\n");
 		}
 	}
